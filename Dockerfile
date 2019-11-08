@@ -41,10 +41,18 @@ RUN locale-gen en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8 \
 	SHELL=/bin/bash
 
-RUN adduser --gecos '' --disabled-password coder && \
+RUN adduser --gecos '' --disabled-password --uid 1002 coder && \
 	echo "coder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/nopasswd
 
 USER coder
+
+# Install nvm for user so that node can be installed
+# RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.0/install.sh | bash
+
+# Add NVM to user's bashrc so it can be used
+RUN echo "export NVM_DIR=\"/home/coder/.nvm\"" >> /home/coder/.bashrc
+RUN echo "[ -s \"/home/coder/.nvm/nvm.sh\" ] && . \"/home/coder/.nvm/nvm.sh\"" >> /home/coder/.bashrc
+
 # We create first instead of just using WORKDIR as when WORKDIR creates, the
 # user is root.
 RUN mkdir -p /home/coder/project
