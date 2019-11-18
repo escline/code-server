@@ -34,7 +34,7 @@ RUN apt-get update && apt-get install -y \
 	dumb-init \
 	vim \
 	curl \
-	wget
+	wget \
   && rm -rf /var/lib/apt/lists/*
 
 RUN locale-gen en_US.UTF-8
