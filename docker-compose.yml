@@ -2,12 +2,22 @@ version: "3"
 
 services:
   code-server:
-    container_name: code-server
-    image: codercom/code-server
+    build:
+      context: .
+      args:
+        userId: ${CODE_SERVER_UID}
+        vscodeVersion: "1.39.2"
+        codeServerVersion: "2.1692"
+
+    image: cdbi_code_server:${CODE_SERVER_UID}
     ports:
-      - "8080:8080"
+      - "${DEVELOPMENT_VSC_PORT}:8080"
+      - "${DEVELOPMENT_PORT}:4200"
     volumes:
       - "${PWD}:/home/coder/project"
       - "${HOME}/.local/share/code-server:/home/coder/.local/share/code-server"
+      - "${HOME}/.gitconfig:/home/coder/.gitconfig"
+      - "${HOME}/.nvm:/home/coder/.nvm"
+      - "${HOME}/.ssh:/home/coder/.ssh"
     environment:
-      PASSWORD: ${PASSWORD}
+      PASSWORD: ${CODE_SERVER_PASSWORD}

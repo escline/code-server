@@ -23,6 +23,7 @@ RUN yarn \
 
 # We deploy with ubuntu so that devs have a familiar environment.
 FROM ubuntu:18.04
+ARG userId=1000
 
 RUN apt-get update && apt-get install -y \
 	openssl \
@@ -33,8 +34,7 @@ RUN apt-get update && apt-get install -y \
 	dumb-init \
 	vim \
 	curl \
-	wget \
-  && rm -rf /var/lib/apt/lists/*
+	wget
 
 RUN locale-gen en_US.UTF-8
 # We cannot use update-locale because docker will not use the env variables
@@ -42,7 +42,7 @@ RUN locale-gen en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8 \
 	SHELL=/bin/bash
 
-RUN adduser --gecos '' --disabled-password --uid 1002 coder && \
+RUN adduser --gecos '' --disabled-password --uid ${userId} coder && \
 	echo "coder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/nopasswd
 
 USER coder
