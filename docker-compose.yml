@@ -2,14 +2,14 @@ version: "3"
 
 services:
   code-server:
+    image: cdbi_code_server:${CODE_SERVER_UID}
     build:
       context: .
       args:
         userId: ${CODE_SERVER_UID}
         vscodeVersion: "1.39.2"
         codeServerVersion: "2.1692"
-
-    image: cdbi_code_server:${CODE_SERVER_UID}
+    container_name: cdbi_code_server_${CODE_SERVER_UID}
     ports:
       - "${DEVELOPMENT_VSC_PORT}:8080"
       - "${DEVELOPMENT_PORT}:4200"
