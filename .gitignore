@@ -1,5 +1,8 @@
-node_modules
+*.tsbuildinfo
+.cache
 build
-release
+dist*
+out*
+release*
+node_modules
 binaries
-source
